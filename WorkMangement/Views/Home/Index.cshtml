@@ -1,0 +1,42 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Danh sách nhân viên</h1>
+<div class="container">
+    <a class="btn btn-link" asp-controller="Account" asp-action="Register">Thêm mới User</a>
+    <main role="main" class="pb-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và tên</th>
+                    <th>Tuổi</th>
+                    <th>Giới tính</th>
+                    <th>Phòng ban</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ApplicationUser user in Model)
+                {
+                    <tr>
+                        <td>@user.EmployeeCode</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Age</td>
+                        @if (user.IsMale)
+                        {
+                            <td>Nam</td>
+                        }
+                        else
+                        {
+                            <td>Nữ</td>
+                        }
+                        <td>@user.Department</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>
+

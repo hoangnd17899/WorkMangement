@@ -1,0 +1,102 @@
+﻿@model WorkEditView
+@{
+    ViewData["Title"] = "EditProject";
+}
+
+<h1>Chỉnh sửa công việc @Model.WorkName</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditWork" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WorkId" />
+            <div class="form-group">
+                <label asp-for="WorkName" class="control-label"></label>
+                <input asp-for="WorkName" class="form-control" />
+                <span asp-validation-for="WorkName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkDescription" class="control-label"></label>
+                <input asp-for="WorkDescription" class="form-control" />
+                <span asp-validation-for="WorkDescription" class="text-danger"></span>
+            </div>
+            <div class="card" style="width:900px">
+                <div class="card-header">
+                    <h5>Công việc</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.WorkPhases.Count != 0)
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tên công việc</th>
+                                    <th>Phân công</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Phase work in Model.WorkPhases)
+                                {
+                                    @if (work.EmployeeId == null)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @work.PhaseName
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">Chưa phân công</span>
+                                            </td>
+                                            <td>
+                                                <a asp-action="EditPhase" asp-route-phaseId="@work.PhaseId">Edit</a> /
+                                                <a asp-action="DeletePhase" asp-route-phaseId="@work.PhaseId">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @work.PhaseName
+                                            </td>
+                                            <td>
+                                                <span class="text-success">@work.EmployeeId</span>
+                                            </td>
+                                            <td>
+                                                <a asp-action="EditPhase" asp-route-workId="@work.PhaseId">Edit</a> / 
+                                                <a asp-action="DeletePhase" asp-route-workId="@work.PhaseId">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Chưa có công việc nào</h5>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-action="AddPhase" asp-controller="Home" asp-route-workId="@Model.WorkId" style="width:auto" class="btn btn-primary">
+                        Thêm công việc
+                    </a>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListWorks">Trở lại danh sách</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+

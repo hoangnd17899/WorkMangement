@@ -1,0 +1,39 @@
+﻿@model PhaseEditView
+
+@{
+    ViewData["Title"] = "EditWork";
+}
+
+<h1>Chỉnh sửa thôn tin pha</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditPhase" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.PhaseId" />
+            <div class="form-group">
+                <label asp-for="@Model.PhaseName" class="control-label"></label>
+                <input asp-for="@Model.PhaseName" class="form-control" />
+                <span asp-validation-for="@Model.PhaseName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.WorkId" class="control-label"></label>
+                <input asp-for="@Model.WorkId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="EditWork" asp-route-projectId="@Model.WorkId">Quay lại trang chỉnh sửa dự án</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+

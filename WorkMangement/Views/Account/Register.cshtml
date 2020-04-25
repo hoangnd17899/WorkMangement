@@ -1,0 +1,81 @@
+﻿@model RegisterViewModel
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Thêm mới user</h1>
+<form asp-action="Register" method="post">
+    <div>
+        <label asp-for="@Model.FullName" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="text" asp-for="@Model.FullName" />
+            <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.UserName" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="text" asp-for="@Model.UserName" />
+            <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.Password" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="password" asp-for="@Model.Password" />
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.ConfirmPassword" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="password" asp-for="@Model.ConfirmPassword" />
+            <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.EmployeeCode" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="text" asp-for="@Model.EmployeeCode" />
+            <span asp-validation-for="@Model.EmployeeCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.Age" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="text" asp-for="@Model.Age" />
+            <span asp-validation-for="@Model.Age" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.Gender" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <select asp-for="@Model.Gender" asp-items="Html.GetEnumSelectList<EnumGender>()">
+                <option value="">Please Select</option>
+            </select>
+            <span asp-validation-for="@Model.Gender" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.Department" style="width:150px" class="control-label"></label>
+        <div style="display:inline">
+            <input type="text" asp-for="@Model.Department" />
+            <span asp-validation-for="@Model.Department" class="text-danger"></span>
+        </div>
+    </div>
+    @if (signInManager.IsSignedIn(User))
+    {
+        <button type="submit">Thêm mới</button>
+    }
+    else
+    {
+        <button type="submit">Đăng ký</button>
+        <a asp-action="Login" asp-controller="Account">Quay lại trang đăng nhập</a>
+    }
+</form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
