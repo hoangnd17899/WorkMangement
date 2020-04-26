@@ -3,7 +3,7 @@
     ViewData["Title"] = "EditProject";
 }
 
-<h1>Chỉnh sửa công việc @Model.WorkName</h1>
+<h3>Chỉnh sửa công việc @Model.WorkName</h3>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditWork" method="post">
@@ -29,7 +29,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Tên công việc</th>
+                                    <th>Tên pha</th>
                                     <th>Phân công</th>
                                     <th></th>
                                 </tr>
@@ -37,55 +37,44 @@
                             <tbody>
                                 @foreach (Phase work in Model.WorkPhases)
                                 {
-                                    @if (work.EmployeeId == null)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @work.PhaseName
-                                            </td>
-                                            <td>
+                                    <tr>
+                                        <td>
+                                            @work.PhaseName
+                                        </td>
+                                        <td>
+                                            @if (work.EmployeeId == null)
+                                            {
                                                 <span class="text-danger">Chưa phân công</span>
-                                            </td>
-                                            <td>
-                                                <a asp-action="EditPhase" asp-route-phaseId="@work.PhaseId">Edit</a> /
-                                                <a asp-action="DeletePhase" asp-route-phaseId="@work.PhaseId">Delete</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td>
-                                                @work.PhaseName
-                                            </td>
-                                            <td>
+                                            }
+                                            else
+                                            {
                                                 <span class="text-success">@work.EmployeeId</span>
-                                            </td>
-                                            <td>
-                                                <a asp-action="EditPhase" asp-route-workId="@work.PhaseId">Edit</a> / 
-                                                <a asp-action="DeletePhase" asp-route-workId="@work.PhaseId">Delete</a>
-                                            </td>
-                                        </tr>
-                                    }
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-action="EditPhase" asp-route-phaseId="@work.PhaseId">Edit</a> /
+                                            <a asp-action="DeletePhase" asp-route-phaseId="@work.PhaseId">Delete</a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
                     }
                     else
                     {
-                        <h5 class="card-title">Chưa có công việc nào</h5>
+                        <h5 class="card-title">Chưa có pha nào</h5>
                     }
                 </div>
                 <div class="card-footer">
                     <a asp-action="AddPhase" asp-controller="Home" asp-route-workId="@Model.WorkId" style="width:auto" class="btn btn-primary">
-                        Thêm công việc
+                        Thêm pha
                     </a>
                 </div>
             </div>
 
             <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
