@@ -7,6 +7,7 @@
 <span class="text-success">@ViewData["RegisterSuccess"]</span>
 <form asp-action="Login" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="@Model.returnUrl" hidden/>
     <div>
         <label asp-for="@Model.UserName" style="width:150px" class="control-label"></label>
         <input type="text" asp-for="@Model.UserName" />

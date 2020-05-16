@@ -16,5 +16,6 @@ namespace WorkMangement
         [DisplayName("ID công việc")]
         public Guid WorkId { get; set; }
         public Guid? EmployeeId { get; set; }
+        public List<ApplicationUser> Employees { get; set; }
     }
 }

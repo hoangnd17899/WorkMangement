@@ -10,8 +10,8 @@ using WorkMangement;
 namespace WorkMangement.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20200421134631_AddEmployeeIdForWork")]
-    partial class AddEmployeeIdForWork
+    [Migration("20200514172146_UpdatePhaseClass")]
+    partial class UpdatePhaseClass
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -232,21 +232,29 @@ namespace WorkMangement.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("WorkMangement.Project", b =>
+            modelBuilder.Entity("WorkMangement.Phase", b =>
                 {
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid>("PhaseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProjectDescription")
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsFinish")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhaseName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProjectName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("WorkId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("PhaseId");
 
-                    b.ToTable("Projects");
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Phases");
                 });
 
             modelBuilder.Entity("WorkMangement.Work", b =>
@@ -255,18 +263,13 @@ namespace WorkMangement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("WorkDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WorkName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WorkId");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Works");
                 });
@@ -322,11 +325,11 @@ namespace WorkMangement.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WorkMangement.Work", b =>
+            modelBuilder.Entity("WorkMangement.Phase", b =>
                 {
-                    b.HasOne("WorkMangement.Project", null)
-                        .WithMany("ProjectWorks")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("WorkMangement.Work", null)
+                        .WithMany("WorkPhases")
+                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

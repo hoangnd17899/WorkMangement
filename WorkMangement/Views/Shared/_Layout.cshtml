@@ -1,4 +1,5 @@
 ﻿@inject SignInManager<ApplicationUser> signinManager
+@inject UserManager<ApplicationUser> userManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,15 +22,21 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-action="ListWorks" asp-controller="Home">Công việc</a>
                     </li>
+                    @*@if (User.IsInRole("admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="" asp-controller="Home">Phân quyền</a>
+                        </li>
+                    }*@
                     @*<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Quản lý
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Nhân viên</a>
-                            <a class="dropdown-item" href="#">Dự án</a>
-                        </div>
-                    </li>*@
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Quản lý
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Nhân viên</a>
+                <a class="dropdown-item" href="#">Dự án</a>
+            </div>
+        </li>*@
                 </ul>
                 <a class="nav-link my-2 my-lg-0" asp-action="Logout" asp-controller="Account">Logout @User.Identity.Name</a>
             </div>

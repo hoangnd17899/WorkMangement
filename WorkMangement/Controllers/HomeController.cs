@@ -11,6 +11,7 @@ using WorkMangement;
 
 namespace WorkMangement.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly WorkDL workDL;
@@ -74,6 +75,7 @@ namespace WorkMangement.Controllers
         /// Nguyễn Đình Hoàng - 20173143
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         public IActionResult AddWork()
         {
             return View();
@@ -85,6 +87,7 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult AddWork(WorkCreateView model)
         {
             if (ModelState.IsValid)
@@ -106,6 +109,7 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <param name="projectId">id của dự án</param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         public IActionResult EditWork(Guid workId)
         {
             var model = workDL.GetWorkById(workId);
@@ -119,6 +123,7 @@ namespace WorkMangement.Controllers
         /// <param name="pro"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult EditWork(WorkEditView pro)
         {
             if (ModelState.IsValid)
@@ -140,6 +145,7 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteWork(Guid workId)
         {
             var rs = workDL.DeleteWork(workId);
@@ -155,6 +161,7 @@ namespace WorkMangement.Controllers
         /// Nguyễn Đình Hoàng - 20173143
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         public IActionResult AddPhase(Guid workId)
         {
             var model = new PhaseCreateView
@@ -171,6 +178,7 @@ namespace WorkMangement.Controllers
         /// <param name="model">công việc</param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult AddPhase(PhaseCreateView model)
         {
             var rs = phaseDL.AddPhase(model);
@@ -189,6 +197,7 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <param name="workId"></param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         public IActionResult DeletePhase(Guid phaseId)
         {
             var rs = phaseDL.DeletePhase(phaseId);
@@ -207,6 +216,7 @@ namespace WorkMangement.Controllers
         /// <param name="workId"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult EditPhase(Guid phaseId)
         {
             var model = phaseDL.GetPhaseById(phaseId);
@@ -220,6 +230,7 @@ namespace WorkMangement.Controllers
         /// <param name="work"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult EditPhase(PhaseEditView work)
         {
             if (ModelState.IsValid)
@@ -229,7 +240,6 @@ namespace WorkMangement.Controllers
                 {
                     return RedirectToAction("EditWork", new { workId = work.WorkId });
                 }
-
                 ModelState.AddModelError("", "Thay đổi thông tin công việc không thành công");
             }
 

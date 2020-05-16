@@ -10,8 +10,8 @@ using WorkMangement;
 namespace WorkMangement.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20200416212521_ChangePropertiesUser")]
-    partial class ChangePropertiesUser
+    [Migration("20200514095134_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,7 +177,7 @@ namespace WorkMangement.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("EmployeeId")
+                    b.Property<string>("EmployeeCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
@@ -232,6 +232,45 @@ namespace WorkMangement.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("WorkMangement.Phase", b =>
+                {
+                    b.Property<Guid>("PhaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhaseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PhaseId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Phases");
+                });
+
+            modelBuilder.Entity("WorkMangement.Work", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WorkDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WorkId");
+
+                    b.ToTable("Works");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -279,6 +318,15 @@ namespace WorkMangement.Migrations
                     b.HasOne("WorkMangement.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WorkMangement.Phase", b =>
+                {
+                    b.HasOne("WorkMangement.Work", null)
+                        .WithMany("WorkPhases")
+                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

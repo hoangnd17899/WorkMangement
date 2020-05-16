@@ -40,15 +40,28 @@ namespace WorkMangement.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: true),
-                    EmployeeName = table.Column<string>(nullable: true),
-                    EmployeeAge = table.Column<int>(nullable: false),
-                    EmployeeGender = table.Column<bool>(nullable: false),
-                    EmployeeDepartment = table.Column<string>(nullable: true)
+                    FullName = table.Column<string>(nullable: true),
+                    EmployeeCode = table.Column<string>(nullable: true),
+                    Age = table.Column<int>(nullable: false),
+                    IsMale = table.Column<bool>(nullable: false),
+                    Department = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Works",
+                columns: table => new
+                {
+                    WorkId = table.Column<Guid>(nullable: false),
+                    WorkName = table.Column<string>(nullable: true),
+                    WorkDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Works", x => x.WorkId);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +170,26 @@ namespace WorkMangement.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Phases",
+                columns: table => new
+                {
+                    PhaseId = table.Column<Guid>(nullable: false),
+                    PhaseName = table.Column<string>(nullable: true),
+                    WorkId = table.Column<Guid>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Phases", x => x.PhaseId);
+                    table.ForeignKey(
+                        name: "FK_Phases_Works_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "Works",
+                        principalColumn: "WorkId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -195,6 +228,11 @@ namespace WorkMangement.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Phases_WorkId",
+                table: "Phases",
+                column: "WorkId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -215,10 +253,16 @@ namespace WorkMangement.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Phases");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Works");
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace WorkMangement
@@ -59,6 +60,7 @@ namespace WorkMangement
         public WorkEditView GetWorkById(Guid workId)
         {
             var pro_db = dbContext.Works.FirstOrDefault(x => x.WorkId == workId);
+
             var pro = new WorkEditView
             {
                 WorkId = pro_db.WorkId,
@@ -66,6 +68,16 @@ namespace WorkMangement
                 WorkDescription = pro_db.WorkDescription,
                 WorkPhases = dbContext.Phases.Where(x => x.WorkId == workId).ToList()
             };
+
+            foreach (Phase phase in pro.WorkPhases)
+            {
+                if(phase.EmployeeId != null)
+                {
+                    var emp = dbContext.Users.FirstOrDefault(x => x.Id == phase.EmployeeId.ToString());
+                    phase.DisplayName = emp.FullName+" "+emp.EmployeeCode;
+                }
+            }
+
             return pro;
         }
 

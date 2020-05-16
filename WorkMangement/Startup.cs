@@ -26,14 +26,15 @@ namespace WorkMangement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
+
             // Sử dụng service Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
                 // Thay đổi ràng buộc mật khẩu
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-            .AddEntityFrameworkStores<ApplicationDBContext>();  
+            .AddEntityFrameworkStores<ApplicationDBContext>();
 
             // Sử dụng Custom DBContext
             services.AddDbContext<ApplicationDBContext>(
@@ -62,8 +63,9 @@ namespace WorkMangement
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // authentication before authorization
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

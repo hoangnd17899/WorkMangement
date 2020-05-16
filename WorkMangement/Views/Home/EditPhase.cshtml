@@ -22,6 +22,12 @@
                 <input asp-for="@Model.WorkId" class="form-control" />
             </div>
             <div class="form-group">
+                <label class="control-label">Phân công</label>
+                <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.Employees,"Id","FullName"))">
+                    <option value="">Chưa phân công</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

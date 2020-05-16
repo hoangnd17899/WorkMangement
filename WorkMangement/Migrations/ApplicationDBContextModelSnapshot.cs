@@ -239,6 +239,9 @@ namespace WorkMangement.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsFinish")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PhaseName")
                         .HasColumnType("nvarchar(max)");
 

@@ -31,29 +31,40 @@
                                 <tr>
                                     <th>Tên pha</th>
                                     <th>Phân công</th>
+                                    <th>Hoàn thành</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (Phase work in Model.WorkPhases)
+                                @foreach (Phase phase in Model.WorkPhases)
                                 {
                                     <tr>
                                         <td>
-                                            @work.PhaseName
+                                            @phase.PhaseName
                                         </td>
                                         <td>
-                                            @if (work.EmployeeId == null)
+                                            @if (phase.EmployeeId == null)
                                             {
                                                 <span class="text-danger">Chưa phân công</span>
                                             }
                                             else
                                             {
-                                                <span class="text-success">@work.EmployeeId</span>
+                                                <span class="text-success">@phase.DisplayName</span>
                                             }
                                         </td>
                                         <td>
-                                            <a asp-action="EditPhase" asp-route-phaseId="@work.PhaseId">Edit</a> /
-                                            <a asp-action="DeletePhase" asp-route-phaseId="@work.PhaseId">Delete</a>
+                                            @if (phase.IsFinish)
+                                            {
+                                                <input type="checkbox" checked disabled/>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" disabled/>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-action="EditPhase" asp-route-phaseId="@phase.PhaseId">Edit</a> /
+                                            <a asp-action="DeletePhase" asp-route-phaseId="@phase.PhaseId">Delete</a>
                                         </td>
                                     </tr>
                                 }

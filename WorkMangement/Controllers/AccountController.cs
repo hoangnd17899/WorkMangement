@@ -29,9 +29,13 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            LoginViewModel model = new LoginViewModel
+            {
+                returnUrl = returnUrl
+            };
+            return View(model);
         }
 
         /// <summary>
@@ -110,12 +114,24 @@ namespace WorkMangement.Controllers
 
         /// <summary>
         /// Đăng xuất
+        /// Nguyễn Đình Hoàng - 20173143
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login","Account");
+        }
+
+        /// <summary>
+        /// Xử lý user không có quyền truy cập dịch vụ
+        /// Nguyễn Đình Hoàng 20173143
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            return View("AccessDenied");
         }
     }
 }

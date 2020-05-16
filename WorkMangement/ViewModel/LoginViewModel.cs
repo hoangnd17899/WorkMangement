@@ -17,5 +17,7 @@ namespace WorkMangement
         public string Password { get; set; }
         [DisplayName("Lưu đăng nhập")]
         public bool RememberMe { get; set; }
+        #nullable enable
+        public string? returnUrl { get; set; }
     }
 }

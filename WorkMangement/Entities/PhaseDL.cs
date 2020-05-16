@@ -77,7 +77,8 @@ namespace WorkMangement
                 PhaseId = work_db.PhaseId,
                 WorkId = work_db.WorkId,
                 PhaseName = work_db.PhaseName,
-                EmployeeId = work_db.EmployeeId
+                EmployeeId = work_db.EmployeeId,
+                Employees = dbContext.Users.ToList()
             };
             return work;
         }
@@ -94,6 +95,7 @@ namespace WorkMangement
             if (old_pro != null)
             {
                 old_pro.PhaseName = phase.PhaseName;
+                old_pro.EmployeeId = phase.EmployeeId;
                 dbContext.SaveChanges();
                 return true;
             }
