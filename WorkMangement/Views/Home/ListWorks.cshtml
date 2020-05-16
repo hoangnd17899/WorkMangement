@@ -5,7 +5,7 @@
 
 <h1>Danh sách công việc</h1>
 <div class="container">
-    <a class="btn btn-link" asp-controller="Home" asp-action="AddWork">Thêm mới công việc</a>
+    <a class="btn btn-link" asp-controller="Admin" asp-action="AddWork">Thêm mới công việc</a>
     <main role="main" class="pb-3">
         <div asp-validation-summary="All"></div>
         <table class="table table-striped">
@@ -23,8 +23,8 @@
                     <td>@pro.WorkName</td>
                     <td>@pro.WorkDescription</td>
                     <td>
-                        <a asp-action="EditWork" asp-route-workId="@pro.WorkId">Edit</a>/
-                        <a asp-action="DeleteWork" asp-route-workId="@pro.WorkId">Delete</a>
+                        <a asp-action="EditWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Edit</a>/
+                        <a asp-action="DeleteWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Delete</a>
                     </td>
                 </tr>
                 }
