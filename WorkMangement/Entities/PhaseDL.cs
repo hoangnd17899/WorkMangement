@@ -24,14 +24,14 @@ namespace WorkMangement
         {
             try
             {
-                var work = new Phase
+                var newPhase = new Phase
                 {
                     PhaseId = new Guid(),
                     PhaseName = phase.PhaseName,
                     WorkId = phase.WorkId
                 };
 
-                dbContext.Phases.Add(work);
+                dbContext.Phases.Add(newPhase);
                 dbContext.SaveChanges();
                 return true;
             }
@@ -100,6 +100,64 @@ namespace WorkMangement
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Hàm lấy danh sách các pha công việc được giao của nhân viên theo id nhân viên
+        /// Nguyễn Đình Hoàng 20173143
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        public List<UserPhasesViewModel> GetAllPhaseByEmployeeId(Guid employeeId)
+        {
+            List<UserPhasesViewModel> lst = new List<UserPhasesViewModel>();
+            var phases = dbContext.Phases.Where(x => x.EmployeeId == employeeId);
+            foreach(Phase ph in phases)
+            {
+                UserPhasesViewModel model = new UserPhasesViewModel
+                {
+                    PhaseId = ph.PhaseId,
+                    WorkId = ph.WorkId,
+                    PhaseName = ph.PhaseName,
+                    WorkName = dbContext.Works.FirstOrDefault(x => x.WorkId == ph.WorkId).WorkName,
+                    IsFinish = ph.IsFinish
+                };
+                lst.Add(model);
+            }
+
+            return lst;
+        }
+
+        /// <summary>
+        /// Hàm cập nhật tình trạng công việc của nhân viên
+        /// </summary>
+        /// <param name="lst"></param>
+        public bool UpdatePhasesStatus(List<UserPhasesViewModel> lst)
+        {
+            foreach(UserPhasesViewModel phase in lst)
+            {
+                var oldPhase = dbContext.Phases.FirstOrDefault(x => x.PhaseId == phase.PhaseId);
+                var previousPhase = dbContext.Phases.FirstOrDefault(x => x.WorkId == oldPhase.WorkId && x.OrderNumber == oldPhase.OrderNumber - 1);
+                if(previousPhase != null)
+                {
+                    if(previousPhase.IsFinish == false && phase.IsFinish)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        oldPhase.IsFinish = phase.IsFinish;
+                        dbContext.SaveChanges();
+                    }
+                }
+                else
+                {
+                    oldPhase.IsFinish = phase.IsFinish;
+                    dbContext.SaveChanges();
+                }
+            }
+
+            return true;
         }
     }
 }

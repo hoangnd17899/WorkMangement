@@ -1,17 +1,21 @@
-﻿@model List<Work>
+﻿@inject UserManager<ApplicationUser> userManager
+@model List<Work>
 @{
     ViewData["Title"] = "ListProjects";
 }
 
 <h1>Danh sách công việc</h1>
 <div class="container">
-    <a class="btn btn-link" asp-controller="Admin" asp-action="AddWork">Thêm mới công việc</a>
+    @if (User.IsInRole("admin"))
+    {
+        <a class="btn btn-link" asp-controller="Admin" asp-action="AddWork">Thêm mới công việc</a>
+    }
     <main role="main" class="pb-3">
         <div asp-validation-summary="All"></div>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Tên dự án</th>
+                    <th>Tên công việc</th>
                     <th>Mô tả</th>
                     <th></th>
                 </tr>
@@ -19,14 +23,22 @@
             <tbody>
                 @foreach (Work pro in Model)
                 {
-                <tr>
-                    <td>@pro.WorkName</td>
-                    <td>@pro.WorkDescription</td>
-                    <td>
-                        <a asp-action="EditWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Edit</a>/
-                        <a asp-action="DeleteWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@pro.WorkName</td>
+                        <td>@pro.WorkDescription</td>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <td>
+                                <a asp-action="EditWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Edit</a> /
+                                <a asp-action="DeleteWork" asp-controller="Admin" asp-route-workId="@pro.WorkId">Delete</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td><a asp-action="ViewWork" asp-controller="Home" asp-route-workId="@pro.WorkId">View</a></td>
+                        }
+
+                    </tr>
                 }
             </tbody>
         </table>

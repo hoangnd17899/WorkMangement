@@ -9,13 +9,9 @@ namespace WorkMangement.Controllers
 {
     public class AccountController : Controller
     {
-        /// <summary>
-        /// Quản lý user
-        /// </summary>
+        // Quản lý user
         private readonly UserManager<ApplicationUser> userManager;
-        /// <summary>
-        /// Quản lý đăng nhập
-        /// </summary>
+        // Quản lý đăng nhập
         private readonly SignInManager<ApplicationUser> signInManager;
 
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
@@ -93,7 +89,7 @@ namespace WorkMangement.Controllers
                     EmployeeCode = model.EmployeeCode,
                     Age = model.Age,
                     Department = model.Department,
-                    IsMale = model.Gender == EnumGender.Male ? true : false
+                    IsMale = model.Gender == EnumGender.Nam ? true : false
                 };
 
                 // Create new user
@@ -107,7 +103,6 @@ namespace WorkMangement.Controllers
                 }
 
                 ModelState.AddModelError("", "Tạo tài khoản không thành công");
-               
             }
             return View();
         }
@@ -129,7 +124,7 @@ namespace WorkMangement.Controllers
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        public IActionResult AccessDenied(string returnUrl)
+        public IActionResult AccessDenied()
         {
             return View("AccessDenied");
         }

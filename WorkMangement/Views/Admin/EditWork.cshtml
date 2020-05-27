@@ -1,4 +1,5 @@
-﻿@model WorkEditView
+﻿@inject UserManager<ApplicationUser> userManager
+@model WorkEditView
 @{
     ViewData["Title"] = "EditProject";
 }
@@ -55,11 +56,26 @@
                                         <td>
                                             @if (phase.IsFinish)
                                             {
-                                                <input type="checkbox" checked disabled/>
+                                                if (phase.EmployeeId.ToString() == userManager.GetUserId(User))
+                                                {
+                                                    <input type="checkbox" checked class="phase_finish"/>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" checked disabled class="phase_finish"/>
+                                                }
+
                                             }
                                             else
                                             {
-                                                <input type="checkbox" disabled/>
+                                                if (phase.EmployeeId.ToString() == userManager.GetUserId(User))
+                                                {
+                                                    <input type="checkbox" class="phase_finish"/>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" disabled class="phase_finish"/>
+                                                }
                                             }
                                         </td>
                                         <td>

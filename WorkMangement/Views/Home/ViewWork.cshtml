@@ -1,0 +1,113 @@
+﻿@inject UserManager<ApplicationUser> userManager
+@model WorkEditView
+@{
+    ViewData["Title"] = "ViewWork";
+}
+
+<h3>Chỉnh sửa công việc @Model.WorkName</h3>
+<div class="row">
+    <div class="col-md-4">
+        <span class="text-danger">@TempData["Error"]</span>
+        <form asp-action="ViewWork" method="post">
+            <input type="hidden" asp-for="WorkId" />
+            <div class="form-group">
+                <label asp-for="WorkName" class="control-label"></label>
+                <input asp-for="WorkName" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkDescription" class="control-label"></label>
+                <input asp-for="WorkDescription" class="form-control" readonly />
+            </div>
+            <div class="card" style="width:900px">
+                <div class="card-header">
+                    <h5>Công việc</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.WorkPhases.Count != 0)
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tên pha</th>
+                                    <th>Phân công</th>
+                                    <th>Hoàn thành</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.WorkPhases.Count; i++)
+                                {
+                                    <input type="text" asp-for="@Model.WorkPhases[i].PhaseId" hidden />
+                                    <input type="text" asp-for="@Model.WorkPhases[i].EmployeeId" hidden />
+                                    @if (Model.WorkPhases[i].EmployeeId.ToString() == userManager.GetUserId(User))
+                                    {
+                                        <tr class="phase_of_employee">
+                                            <td>
+                                                @Model.WorkPhases[i].PhaseName
+                                            </td>
+                                            <td>
+                                                @if (Model.WorkPhases[i].EmployeeId == null)
+                                                {
+                                                    <span class="text-danger">Chưa phân công</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success">@Model.WorkPhases[i].DisplayName</span>
+                                                }
+                                            </td>
+                                            <td>
+
+                                                <input type="checkbox" asp-for="@Model.WorkPhases[i].IsFinish"
+                                                       class="phase_finish" orderNumber="@Model.WorkPhases[i].OrderNumber" />
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Model.WorkPhases[i].PhaseName
+                                            </td>
+                                            <td>
+                                                @if (Model.WorkPhases[i].EmployeeId == null)
+                                                {
+                                                    <span class="text-danger">Chưa phân công</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success">@Model.WorkPhases[i].DisplayName</span>
+                                                }
+                                            </td>
+                                            <td>
+
+                                                <input type="checkbox" asp-for="@Model.WorkPhases[i].IsFinish" disabled
+                                                       class="phase_finish" orderNumber="@Model.WorkPhases[i].OrderNumber" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Chưa có pha nào</h5>
+                    }
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListWorks" asp-controller="Home">Trở lại danh sách</a>
+</div>
+
+@section Scripts{
+    <script src="~/js/ViewWork.js"></script>
+}
+

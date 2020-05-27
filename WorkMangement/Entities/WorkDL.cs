@@ -66,7 +66,7 @@ namespace WorkMangement
                 WorkId = pro_db.WorkId,
                 WorkName = pro_db.WorkName,
                 WorkDescription = pro_db.WorkDescription,
-                WorkPhases = dbContext.Phases.Where(x => x.WorkId == workId).ToList()
+                WorkPhases = dbContext.Phases.Where(x => x.WorkId == workId).OrderBy(x=>x.OrderNumber).ToList()
             };
 
             foreach (Phase phase in pro.WorkPhases)

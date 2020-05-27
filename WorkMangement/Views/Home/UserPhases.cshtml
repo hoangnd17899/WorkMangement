@@ -1,0 +1,43 @@
+﻿@model List<UserPhasesViewModel>
+@{
+    ViewData["Title"] = "UserPhases";
+}
+
+<h1>Pha công việc</h1>
+<div class="container">
+    <main role="main" class="pb-3">
+        <form asp-action="UserPhases" asp-controller="Home" method="post">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tên pha</th>
+                        <th>Công việc</th>
+                        <th>Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <input asp-for="@Model[i].PhaseId" hidden />
+                        <input asp-for="@Model[i].WorkId" hidden />
+                        <tr>
+
+                            <td>@Model[i].PhaseName</td>
+                            <td>@Model[i].WorkName</td>
+                            @if (Model[i].IsFinish)
+                            {
+                                <td><input type="checkbox" checked asp-for="@Model[i].IsFinish" /></td>
+
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" asp-for="@Model[i].IsFinish" /></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button type="submit">Lưu</button>
+        </form>
+    </main>
+</div>

@@ -7,7 +7,7 @@ namespace WorkMangement
 {
     public enum EnumGender
     {
-        Male,
-        Female
+        Nam,
+        Nữ
     }
 }

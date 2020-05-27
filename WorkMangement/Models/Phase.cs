@@ -15,6 +15,7 @@ namespace WorkMangement
         public Guid WorkId { get; set; }
         public Guid? EmployeeId { get; set; }
         public bool IsFinish { get; set; }
+        public int OrderNumber { get; set; }
         #nullable enable
         // Thuộc tính không mapping với table trong database
         [NotMapped]
